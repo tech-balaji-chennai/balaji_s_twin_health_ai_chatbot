@@ -1,0 +1,23 @@
+# Django Web Framework
+Django
+# Used for easily building the API endpoint
+djangorestframework
+
+# Google Generative AI SDK (for Gemini calls)
+google-genai
+
+# Structured Data/Schema Validation (used for LLM output schema)
+pydantic
+
+# Secure Environment Handling (for local development .env file)
+python-dotenv
+
+# Cross-Origin Resource Sharing (CRITICAL for allowing your GitHub Pages frontend
+# to talk to your separate Django backend)
+django-cors-headers
+
+# Production Web Server (needed when deploying to a platform like Render/Heroku)
+gunicorn
+
+# Optional: If you use a database other than the default SQLite (e.g., PostgreSQL for production)
+# psycopg2-binary
