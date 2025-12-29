@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twin Health AI Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div id="chat-container">
+        <header id="chat-header">
+            <img src="Twin Health - Official Logo.png" alt="Twin Health Logo" class="logo">
+            <h1>Twin Health Assistant</h1>
+            <button id="history-btn" title="View Conversation History">
+                <i class="fas fa-history"></i>
+            </button>
+        </header>
+
+        <div id="chat-window">
+            <div class="message ai-message">
+                <div class="message-content">
+                    Hello! I am your dedicated Twin Health AI Assistant. How can I help you today regarding your appointments or lab work?
+                </div>
+                <div class="chat-actions">
+                    <button class="action-btn copy-btn" title="Copy"><i class="fas fa-copy"></i></button>
+                    <button class="action-btn share-btn" title="Share"><i class="fas fa-share-alt"></i></button>
+                    <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                </div>
+            </div>
+            </div>
+
+        <div id="scroll-controls">
+            <button id="scroll-up-btn" title="Scroll Up"><i class="fas fa-angle-up"></i></button>
+            <button id="scroll-down-btn" title="Scroll Down"><i class="fas fa-angle-down"></i></button>
+        </div>
+
+        <div id="chat-input-area">
+            <input type="text" id="user-input" placeholder="Ask about your lab appointments or coaching sessions...">
+            <button id="send-btn" title="Send Message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <p id="session-display" style="text-align: center; font-size: 0.8em; color: #aaa; margin-top: 10px;"></p>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
