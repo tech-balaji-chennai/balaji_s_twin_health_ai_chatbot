@@ -1,22 +1,18 @@
-"""
-URL configuration for chatbot project.
+# chatbot/chatbot/urls.py
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
+    # Optional: Keep the admin interface for managing models
     path('admin/', admin.site.urls),
+
+    # CRITICAL FIX: The include() function automatically adds a trailing slash
+    # to the paths it generates. By removing the trailing slash from the path()
+    # argument itself, we make the router correctly handle the boundary.
+    # However, the standard fix is to ensure the path ends with a slash so the include
+    # takes over cleanly.
+
+    # The standard, correct way to include app URLs:
+    path('api/', include('chat.urls')),
 ]

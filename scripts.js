@@ -206,7 +206,7 @@ function scrollBy(amount) {
 // Event Listeners for Scroll Controls
 scrollDownBtn.addEventListener('click', () => scrollBy(300));
 scrollUpBtn.addEventListener('click', () => scrollBy(-300));
-chatWindow.addEventListener('scroll', updateScrollButtons);
+chatWindow.addEventListener('scroll', updateScrollButtons);cls
 
 // Initial call to hide buttons if content is short
 document.addEventListener('DOMContentLoaded', () => {
