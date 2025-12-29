@@ -52,7 +52,12 @@ body {
     flex-grow: 1;
 }
 
-#history-btn {
+#header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+#history-btn, #delete-history-btn { /* Combined styles for both header buttons */
     background: none;
     border: none;
     color: white;
@@ -63,7 +68,7 @@ body {
     border-radius: 4px;
 }
 
-#history-btn:hover {
+#history-btn:hover, #delete-history-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -112,7 +117,7 @@ body {
 .user-message .message-content {
     background-color: #007bff; /* Twin Health Blue */
     color: white;
-    border-bottom-right-radius: 4px; /* Pointed edge */
+    border-bottom-right-radius: 4px;
 }
 
 /* AI Message Styles */
@@ -124,7 +129,7 @@ body {
 .ai-message .message-content {
     background-color: #e9ecef; /* Light Gray/Off-White */
     color: #333;
-    border-bottom-left-radius: 4px; /* Pointed edge */
+    border-bottom-left-radius: 4px;
 }
 
 /* --- Action Buttons (Copy, Share, Edit) --- */

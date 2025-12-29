@@ -4,15 +4,19 @@ const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 const scrollUpBtn = document.getElementById('scroll-up-btn');
 const scrollDownBtn = document.getElementById('scroll-down-btn');
+const deleteHistoryBtn = document.getElementById('delete-history-btn');
 
 // IMPORTANT: Set the API URL for your *future* deployed Django Backend
 // NOTE: When testing locally, use http://127.0.0.1:8000
 // After deployment (e.g., Render/Heroku), replace this with your LIVE URL!
 const API_URL = 'http://127.0.0.1:8000/api/classify/';
 
-// Generate a unique session ID for the conversation (for history/context management on the backend)
-const SESSION_ID = crypto.randomUUID();
-document.getElementById('session-display').textContent = `Session ID: ${SESSION_ID}`;
+let SESSION_ID = crypto.randomUUID();
+
+function updateSessionDisplay() {
+    document.getElementById('session-display').textContent = `Session ID: ${SESSION_ID}`;
+}
+updateSessionDisplay(); // Initial display
 
 // --- 2. Core Chat Functionality ---
 
@@ -32,9 +36,10 @@ function appendMessage(message, sender) {
     const actionContainer = document.createElement('div');
     actionContainer.classList.add('chat-actions');
 
+    // Action buttons implementation
     const copyBtn = createActionButton('copy', 'fas fa-copy', () => copyToClipboard(message));
-    const shareBtn = createActionButton('share', 'fas fa-share-alt', () => alert('Share functionality is a future feature!'));
-    const editBtn = createActionButton('edit', 'fas fa-edit', () => alert('Editing historical messages is a future feature!'));
+    const shareBtn = createActionButton('share', 'fas fa-share-alt', () => handleShare(message));
+    const editBtn = createActionButton('edit', 'fas fa-edit', () => handleEdit(message, messageContent));
 
     actionContainer.append(copyBtn, shareBtn, editBtn);
     messageWrapper.append(messageContent, actionContainer);
@@ -62,7 +67,7 @@ async function sendMessage() {
     appendMessage(message, 'user');
     userInput.value = ''; // Clear input
 
-    // Simulate AI typing indicator (optional, but good UX)
+    // Simulate AI typing indicator
     appendMessage("AI is thinking...", 'ai');
     const typingIndicator = chatWindow.lastChild;
 
@@ -75,7 +80,6 @@ async function sendMessage() {
             body: JSON.stringify({
                 user_message: message,
                 session_id: SESSION_ID // Pass session ID for context tracking
-                // You can add conversation history here if needed
             }),
         });
 
@@ -98,7 +102,10 @@ async function sendMessage() {
     } catch (error) {
         console.error('Fetch error:', error);
         // Display a system error message to the user
-        chatWindow.removeChild(typingIndicator);
+        // Ensure typing indicator is removed before adding error message
+        if (chatWindow.contains(typingIndicator)) {
+            chatWindow.removeChild(typingIndicator);
+        }
         appendMessage("I'm sorry, there was a system error. Please try again later.", 'ai');
     }
 }
@@ -111,7 +118,60 @@ userInput.addEventListener('keypress', (e) => {
     }
 });
 
-// --- 3. Scroll & Utility Functions ---
+// --- 3. Action Button Implementations ---
+
+/** Copies message text to the clipboard */
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Message copied to clipboard!');
+    }).catch(err => {
+        console.error('Could not copy text: ', err);
+        alert('Failed to copy text.');
+    });
+}
+
+/** Placeholder for Share functionality (uses Web Share API if available) */
+function handleShare(text) {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Twin Health Chat Message',
+            text: text,
+        }).catch((error) => console.log('Error sharing', error));
+    } else {
+        // Fallback for browsers without Web Share API
+        prompt("Copy this message to share:", text);
+    }
+}
+
+/** Placeholder for Edit functionality (allows editing in place) */
+function handleEdit(originalText, messageElement) {
+    const newText = prompt("Edit your message:", originalText);
+    if (newText !== null && newText.trim() !== originalText.trim()) {
+        messageElement.textContent = newText.trim();
+        // NOTE: If this were a true RAG app, you would need to send this edit
+        // back to the backend to update the conversation history for the SESSION_ID.
+        alert("Message updated locally. Note: This edit is not saved on the server yet.");
+    }
+}
+
+/** Deletes all messages and resets the session */
+function deleteHistory() {
+    if (confirm("Are you sure you want to delete the entire conversation history? This will reset your session.")) {
+        chatWindow.innerHTML = ''; // Clear all messages
+        SESSION_ID = crypto.randomUUID(); // Generate a brand new session ID
+        updateSessionDisplay();
+
+        // Re-add the initial welcome message
+        appendMessage("Hello! I am your dedicated Twin Health AI Assistant. How can I help you today regarding your appointments or lab work?", 'ai');
+
+        alert("Conversation history deleted and new session started.");
+    }
+}
+deleteHistoryBtn.addEventListener('click', deleteHistory);
+document.getElementById('history-btn').addEventListener('click', () => alert('History retrieval is not yet implemented. Use the trash icon to delete.'));
+
+
+// --- 4. Scroll Functions ---
 
 /** Scrolls the chat window to the bottom */
 function scrollToBottom(element) {
@@ -147,15 +207,6 @@ function scrollBy(amount) {
 scrollDownBtn.addEventListener('click', () => scrollBy(300));
 scrollUpBtn.addEventListener('click', () => scrollBy(-300));
 chatWindow.addEventListener('scroll', updateScrollButtons);
-
-// Utility function for copy button
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        alert('Message copied to clipboard!');
-    }).catch(err => {
-        console.error('Could not copy text: ', err);
-    });
-}
 
 // Initial call to hide buttons if content is short
 document.addEventListener('DOMContentLoaded', () => {

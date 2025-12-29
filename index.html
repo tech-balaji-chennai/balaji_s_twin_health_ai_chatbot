@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Twin Health - Official Logo.png" type="image/png">
     <title>Twin Health AI Chatbot</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -13,9 +14,14 @@
         <header id="chat-header">
             <img src="Twin Health - Official Logo.png" alt="Twin Health Logo" class="logo">
             <h1>Twin Health Assistant</h1>
-            <button id="history-btn" title="View Conversation History">
-                <i class="fas fa-history"></i>
-            </button>
+            <div id="header-actions">
+                <button id="history-btn" title="View Conversation History">
+                    <i class="fas fa-history"></i>
+                </button>
+                <button id="delete-history-btn" title="Delete Conversation History">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
         </header>
 
         <div id="chat-window">

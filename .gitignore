@@ -1,0 +1,45 @@
+# -----------------------------------------------------------------
+# Environment and Virtual Environment
+# -----------------------------------------------------------------
+# 1. Virtual environment directory (CRITICAL)
+/venv/
+.env
+
+# -----------------------------------------------------------------
+# Python/Django Build Artifacts
+# -----------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyd
+*.so
+*.egg-info/
+/htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# Database file
+/db.sqlite3
+
+# Static files collected for deployment
+/staticfiles/
+
+# -----------------------------------------------------------------
+# Django specific (Management files within the project structure)
+# -----------------------------------------------------------------
+# Ignore migration history files only when troubleshooting or deploying
+# /chatbot/chat/migrations/*
+# !/chatbot/chat/migrations/__init__.py
+# (Generally, keep migrations unless explicitly instructed to ignore)
+
+# -----------------------------------------------------------------
+# Frontend/Editor Files
+# -----------------------------------------------------------------
+# PyCharm/IntelliJ
+.idea/
+
+# VS Code
+.vscode/
+
+# Node environment (If using any JS build tools later)
+/node_modules/
+/dist/
